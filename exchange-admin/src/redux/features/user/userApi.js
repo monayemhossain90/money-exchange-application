@@ -1,0 +1,79 @@
+import {apiSlice} from "../api/apiSlice.js";
+import {ErrorToast} from "../../../helper/ValidationHelper.js";
+
+
+export const userApi = apiSlice.injectEndpoints({
+    endpoints: (builder) => ({
+        getUsers: builder.query({
+            query: () => `/auth/get-all-user`,
+            providesTags: ["Users"],
+            async onQueryStarted(arg, {queryFulfilled, dispatch}){
+                try{
+                    const res = await queryFulfilled;
+                }catch(err) {
+                    //ErrorToast("Something Went Wrong!");
+                    //do nothing
+                    //console.log(err);
+                }
+            },
+        }),
+        makeAdmin: builder.mutation({
+            query: (id) => ({
+                url: `/auth/make-admin/${id}`,
+                method: "PUT"
+            }),
+            invalidatesTags: ["Users"],
+            async onQueryStarted(arg, {queryFulfilled}){
+                try{
+                    const res = await queryFulfilled;
+                    if(res?.data?.message === "success"){
+                        // SuccessToast(" Success");
+                    }
+                }catch(err) {
+                    //console.log(err)
+                }
+            }
+        }),
+        removeAdmin: builder.mutation({
+            query: (id) => ({
+                url: `/auth/remove-admin/${id}`,
+                method: "PUT"
+            }),
+            invalidatesTags: ["Users"],
+            async onQueryStarted(arg, {queryFulfilled}){
+                try{
+                    const res = await queryFulfilled;
+                    if(res?.data?.message === "success"){
+                        // SuccessToast(" Success");
+                    }
+                }catch(err) {
+                    let status = err?.error?.status;
+                    if(status===400) {
+                        ErrorToast("minimum have to be an one admin");
+                    }
+                    //console.log(err)
+                }
+            }
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({
+                url: `/auth/delete-user/${id}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Users"],
+            async onQueryStarted(arg, {queryFulfilled}){
+                try{
+                    const res = await queryFulfilled;
+                    if(res?.data?.message === "success"){
+                        // SuccessToast(" Success");
+                    }
+                }catch(err) {
+                    //console.log(err)
+                }
+            }
+        }),
+    }),
+})
+
+
+export const {useGetUsersQuery, useMakeAdminMutation, useRemoveAdminMutation, useDeleteUserMutation} = userApi;

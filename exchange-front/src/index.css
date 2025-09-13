@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.title{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+input:read-only{
+    cursor: not-allowed;
+}
+
+button:disabled{
+    cursor: not-allowed;
+}
+
+ .ant-btn{
+    display: none !important;
+}
+
+.ant-modal-close{
+    display: none !important;
+}
+
+
+.ant-modal-title{
+    font-size: 24px !important;
+    font-weight: bold !important;
+}
+
+.ant-pagination{
+    display: none !important;
+}
